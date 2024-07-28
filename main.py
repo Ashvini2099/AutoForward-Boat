@@ -1,9 +1,9 @@
+from dotenv import load_dotenv
 import requests
 import time
 import threading
-import psycopg2
 import os
-from dotenv import load_dotenv
+import psycopg2
 
 # Load environment variables from .env file
 load_dotenv()
