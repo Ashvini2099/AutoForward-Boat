@@ -15,10 +15,10 @@ auto_forward = False
 
 # Initialize MySQL connection
 conn = mysql.connector.connect(
-    host='Aadity.mysql.pythonanywhere-services.com',  # Replace with your MySQL server address
-    user='Aadity',  # Replace with your MySQL username
-    password='Urmi@1011',  # Replace with your MySQL password
-    database='Aadity$test_db'  # Replace with your MySQL database name
+    host='dpg-cqivkt0gph6c738uuqmg-a',  # Replace with your MySQL server address
+    user='autoforward_user',  # Replace with your MySQL username
+    password='N4y7RDDWpnmfwTFhhd8X2pAs4qozS4r8',  # Replace with your MySQL password
+    database='autoforward'  # Replace with your MySQL database name
 )
 
 
