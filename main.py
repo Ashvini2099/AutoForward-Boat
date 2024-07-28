@@ -3,6 +3,10 @@ import time
 import threading
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Replace with your bot token
 BOT_TOKEN = '7400842411:AAHcbbJDLdZ0BTMfzk0VGHG5pmNeb4720EY'
@@ -14,14 +18,13 @@ DESTINATION_CHANNEL_IDS = [-1002212902820, -1002212743926]  # Use negative ID fo
 
 auto_forward = False
 
-# Initialize MySQL connection
 # Initialize PostgreSQL connection
 conn = psycopg2.connect(
-    host=os.getenv('dpg-cqivkt0gph6c738uuqmg-a'),
-    database=os.getenv('autoforward'),
-    user=os.getenv('autoforward_user'),
-    password=os.getenv('N4y7RDDWpnmfwTFhhd8X2pAs4qozS4r8'),
-    port=os.getenv('5432')
+    host=os.getenv('DB_HOST'),
+    database=os.getenv('DB_NAME'),
+    user=os.getenv('DB_USER'),
+    password=os.getenv('DB_PASSWORD'),
+    port=os.getenv('DB_PORT')
 )
 
 cursor = conn.cursor()
@@ -38,13 +41,11 @@ cursor.execute('''
 ''')
 conn.commit()
 
-
 def keep_alive(conn, interval=300):
     """Keep the MySQL connection alive by pinging it periodically."""
     while True:
         conn.poll()
         time.sleep(interval)
-
 
 def get_updates(offset=None):
     """Get updates from the Telegram API."""
