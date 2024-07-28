@@ -1,2 +1,2 @@
-mysql-connector-python==8.0.26
+psycopg2-binary==2.9.6
 requests==2.26.0
