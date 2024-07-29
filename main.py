@@ -53,8 +53,14 @@ def get_updates(offset=None):
     url = f'{API_URL}/getUpdates'
     params = {'timeout': 100, 'offset': offset}
     response = requests.get(url, params=params)
-    result_json = response.json()['result']
-    return result_json
+    
+    try:
+        result_json = response.json()
+        return result_json.get('result', [])
+    except ValueError as e:
+        print(f"Error decoding JSON: {e}")
+        print(f"Response content: {response.content}")
+        return []
 
 def send_message(chat_id, text, reply_to_message_id=None):
     """Send a text message to a channel, optionally quoting another message."""
