@@ -4,6 +4,7 @@ import time
 import threading
 import os
 import psycopg2
+from flask import Flask
 
 # Load environment variables from .env file
 load_dotenv()
@@ -42,7 +43,7 @@ cursor.execute('''
 conn.commit()
 
 def keep_alive(conn, interval=300):
-    """Keep the MySQL connection alive by pinging it periodically."""
+    """Keep the PostgreSQL connection alive by pinging it periodically."""
     while True:
         conn.poll()
         time.sleep(interval)
@@ -72,7 +73,7 @@ def forward_message(chat_id, from_chat_id, message_id):
     return response.json()
 
 def store_message_id(original_message_id, destination_message_id=None, destination_chat_id=None, original_quote_message_id=None, destination_quote_message_id=None):
-    """Store the mapping of original and forwarded message IDs in the MySQL database."""
+    """Store the mapping of original and forwarded message IDs in the PostgreSQL database."""
     cursor.execute('''
         INSERT INTO forward (original_message_id, destination_message_id, destination_chat_id, original_quote_message_id, destination_quote_message_id)
         VALUES (%s, %s, %s, %s, %s)
@@ -163,5 +164,13 @@ def main():
 
         time.sleep(1)
 
+# Start a dummy web server to satisfy Render's port binding requirement
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Bot is running!"
+
 if __name__ == '__main__':
-    main()
+    threading.Thread(target=main).start()
+    app.run(host='0.0.0.0', port=8000)
